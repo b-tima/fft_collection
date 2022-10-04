@@ -1,5 +1,6 @@
 import os
 import numpy
+import sys
 import datetime
 
 FREQUENCIES = [
@@ -31,23 +32,30 @@ def split_fft_file(fft_samples):
 def get_current_time():
     return datetime.datetime.now().strftime('%Y-%m-%d:%H:%M')
 
+def round_samples(samples):
+    new_samples = []
+    for s in samples:
+        new_samples.append(round(s, 2))
+    return new_samples
+
 def main():    
-    try:
-        while True:
-            for fr in FREQUENCIES:
-                try:
-                    os.system(f"python3.10 ./msa.py ./gnubbe.bin {fr}")
-                    
-                    freq_file = numpy.fromfile(open("gnubbe.bin"), dtype=numpy.float32)
-                    samples = split_fft_file(freq_file)
-                    average = average_fft(samples)
-                    
-                    with open(f"{fr}_Hz.csv", "a") as file:
-                        file.write(f"{get_current_time()} {str(average)[1:len(str(average))-1]}\n")
-                except:
-                    print("fail, try again")
-    except KeyboardInterrupt:
-        os.system("git add . && git commit -m \"automatic data f{get_current_time()}\"")
+    while True:
+        for fr in FREQUENCIES:
+            try:
+                os.system(f"python3.10 ./msa.py ./gnubbe.bin {fr}")
+                
+                freq_file = numpy.fromfile(open("gnubbe.bin"), dtype=numpy.float32)
+                samples = split_fft_file(freq_file)
+                average = average_fft(samples)
+                good_avg = round_samples(average)
+                
+                with open(f"{fr}_Hz.csv", "a") as file:
+                    file.write(f"{get_current_time()} {str(good_avg)[1:len(str(good_avg))-1]}\n")
+            except KeyboardInterrupt:
+                os.system(f"git add . && git commit -m \"automatic data commit {get_current_time()}\" && git push")
+                sys.exit()            
+            except:
+                print("fail, try again")
     
 
 if __name__ == "__main__":
