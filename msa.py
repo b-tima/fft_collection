@@ -44,7 +44,7 @@ from gnuradio import qtgui
 class my_spectrum_analyzer(gr.top_block, Qt.QWidget):
 
     def __init__(self, file_name, center_freq):
-        gr.top_block.__init__(self, "Not titled yet", catch_exceptions=True)
+        gr.top_block.__init__(self, "Not titled yet")
         Qt.QWidget.__init__(self)
         self.setWindowTitle("Not titled yet")
         qtgui.util.check_set_qss()

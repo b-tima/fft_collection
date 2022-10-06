@@ -1,7 +1,7 @@
 import os
 import numpy
 import sys
-import datetime
+import datetime, time
 
 FREQUENCIES = [
     940000000,
@@ -42,8 +42,10 @@ def main():
     while True:
         for fr in FREQUENCIES:
             try:
-                os.system(f"python3.10 ./msa.py ./gnubbe.bin {fr}")
+                os.system(f"python3 ./gnubbe.py ./gnubbe.bin {fr}")
                 
+                time.sleep(0.5)
+
                 freq_file = numpy.fromfile(open("gnubbe.bin"), dtype=numpy.float32)
                 samples = split_fft_file(freq_file)
                 average = average_fft(samples)
@@ -51,8 +53,9 @@ def main():
                 
                 with open(f"{fr}_Hz.csv", "a") as file:
                     file.write(f"{get_current_time()} {str(good_avg)[1:len(str(good_avg))-1]}\n")
-            except KeyboardInterrupt:
+
                 os.system(f"git add . && git commit -m \"automatic data commit {get_current_time()}\" && git push")
+            except KeyboardInterrupt:
                 sys.exit()            
             except:
                 print("fail, try again")
