@@ -30,7 +30,7 @@ def split_fft_file(fft_samples):
     return samples
 
 def get_current_time():
-    return datetime.datetime.now().strftime('%Y-%m-%d:%H:%M')
+    return datetime.datetime.now().strftime('%Y-%m-%d:%H:%M:%S')
 
 def round_samples(samples):
     new_samples = []
