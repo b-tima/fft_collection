@@ -5,8 +5,8 @@ import datetime, time
 
 FREQUENCIES = [
     940000000,
-    1800000000,
-    2600000000
+    1820000000,
+    2630000000
 ]
 
 FFT_SIZE = 2048
