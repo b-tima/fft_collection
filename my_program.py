@@ -52,7 +52,7 @@ def main():
                 good_avg = round_samples(average)
                 
                 with open(f"{fr}_Hz.csv", "a") as file:
-                    file.write(f"{get_current_time()} {str(good_avg)[1:len(str(good_avg))-1]}\n")
+                    file.write(f"{get_current_time()}, {str(good_avg)[1:len(str(good_avg))-1]}\n")
 
                 os.system(f"git add . && git commit -m \"automatic data commit {get_current_time()}\" && git push")
             except KeyboardInterrupt:
